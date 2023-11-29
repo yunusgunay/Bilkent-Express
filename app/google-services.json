@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1003056977839",
+    "firebase_url": "https://loginandmapsdemo-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "loginandmapsdemo",
+    "storage_bucket": "loginandmapsdemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003056977839:android:f474268b077c9285cf415a",
+        "android_client_info": {
+          "package_name": "com.example.registerandmaps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACpn7luSU9dt8kN_U83kVOTozHs6u-6tU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
