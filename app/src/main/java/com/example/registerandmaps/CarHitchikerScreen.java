@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -139,7 +138,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
 
     private void endCarHitchikerScreen() {
         hitchikeUserLocationListener.removeListener();
-        Intent intent = new Intent(this, MainActivity2.class);
+        Intent intent = new Intent(this, HitchikerActivity.class);
         startActivity(intent);
         finish();
     }

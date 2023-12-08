@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity3 extends AppCompatActivity {
+import com.example.registerandmaps.Models.TimeGuesser;
 
+public class RingActivity extends AppCompatActivity {
+    TimeGuesser timeGuesser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

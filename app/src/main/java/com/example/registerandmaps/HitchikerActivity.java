@@ -26,12 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class MainActivity2 extends AppCompatActivity implements OnMapReadyCallback, StateHandler<HitchikerLocation>,GoogleMap.OnMarkerClickListener {
+public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCallback, StateHandler<HitchikerLocation>,GoogleMap.OnMarkerClickListener {
     private Map<Marker, HitchikerLocation> markerLocationMap = new HashMap<>();// creates a key value system for storing location info
     private FirebaseAuth mAuth;
     private GoogleMap mMap;

@@ -22,8 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toMaps() {
-        Intent intent = new Intent(this, MainActivity2.class);
+        Intent intent = new Intent(this, HitchikerActivity.class);
         startActivity(intent);
     }
 

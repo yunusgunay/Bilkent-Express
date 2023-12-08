@@ -1,6 +1,8 @@
 package com.example.registerandmaps.Models;
 
-public class TaxiLocation {
+import java.io.Serializable;
+
+public class TaxiLocation implements Serializable {
     private double lat;
     private double lng;
     private int status;

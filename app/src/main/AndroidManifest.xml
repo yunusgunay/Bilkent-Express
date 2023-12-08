@@ -24,10 +24,10 @@
             android:label="@string/title_activity_main_screen"
             android:theme="@style/Theme.Registerandmaps" />
         <activity
-            android:name=".MainActivity3"
+            android:name=".RingActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".HitchikerActivity"
             android:exported="false" />
         <!--
              To get one, follow the directions here:

@@ -42,7 +42,7 @@ public class MainScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: Implement your hitchhiking action
-                Intent intent = new Intent(MainScreen.this, MainActivity2.class);
+                Intent intent = new Intent(MainScreen.this, HitchikerActivity.class);
                 startActivity(intent);
             }
         });
