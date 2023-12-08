@@ -65,5 +65,6 @@
     <string name="title_activity_main_screen">MainScreen</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_car_taxi_screen">CarTaxiScreen</string>
 </resources>
 

@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Registerandmaps"
         tools:targetApi="31">
         <activity
+            android:name=".CarTaxiScreen"
+            android:exported="false" />
+        <activity
+            android:name=".TaxiActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileScreen"
             android:exported="false" />
         <activity
