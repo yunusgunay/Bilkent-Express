@@ -25,16 +25,14 @@ public class MainScreen extends AppCompatActivity {
         buttonRing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement your ring action
-                showToast("Ring clicked");
+                Intent intent = new Intent(MainScreen.this, RingActivity.class);
+                startActivity(intent);
             }
         });
 
         buttonTaxi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement your taxi action
-                showToast("Taxi clicked");
             }
         });
 
@@ -56,7 +54,4 @@ public class MainScreen extends AppCompatActivity {
         });
     }
 
-    private void showToast(String message) {
-        Toast.makeText(MainScreen.this, message, Toast.LENGTH_SHORT).show();
-    }
 }

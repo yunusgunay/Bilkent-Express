@@ -87,7 +87,7 @@ public class TimeGuesser {
         for (int i = 0; i < STOPS; ++i) {
             if (i > 0) {
                 totalTime += distances[i - 1] / speed * 60;
-                totalTime += 1; // Assuming a fixed time delay per stop
+                totalTime += 1;
             }
             if (stops[i].equals(stopDemanded)) {
                 return totalTime;
