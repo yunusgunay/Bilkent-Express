@@ -53,7 +53,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
         Intent intent = getIntent();
         hitchikerLocation = (HitchikerLocation) intent.getSerializableExtra("hitchikerLocation");
 
-        userDatabase.getUser(hitchikerLocation.getSharerCode(), new UserCallback() {
+        userDatabase.getUser(hitchikerLocation.getSharerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText(user.toString());
@@ -73,7 +73,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
             else if (hitchikerLocation.getStatus() == 1)
             {
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-                DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerCode()).child("status");
+                DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerUid()).child("status");
                 locationRef.setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -100,7 +100,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
         });
 
         // set up the hitchikeUserLocationListener
-        createHitchikeUserLocationListener(hitchikerLocation.getSharerCode());
+        createHitchikeUserLocationListener(hitchikerLocation.getSharerUid());
         // reserve location
         reserveLocation(uid);
 
@@ -108,7 +108,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
 
     private void reserveLocation(String name) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerCode()).child("pickerCode");
+        DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerUid()).child("pickerUid");
         locationRef.setValue(name);
     }
 
@@ -119,7 +119,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     private void changeState(int state) {
         if (hitchikerLocation != null) {
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerCode()).child("status");
+            DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerUid()).child("status");
             locationRef.setValue(state);
         }
     }
@@ -144,8 +144,8 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     }
 
     private void endRide() {
-        if (String.valueOf(carHitchikerEndCodeEditText.getText()).trim().equals("31")){
-            userDatabase.addPointsToUser(hitchikerLocation.getPickerCode(), 5, new OnCompleteListener() {
+        if (String.valueOf(carHitchikerEndCodeEditText.getText()).trim().equals(hitchikerLocation.getSharerEndCode())){
+            userDatabase.addPointsToUser(hitchikerLocation.getPickerUid(), 5, new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     changeState(5);
@@ -155,7 +155,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     }
 
     private void cancelRide() {
-            userDatabase.addPointsToUser(hitchikerLocation.getPickerCode(), -5, new OnCompleteListener() {
+            userDatabase.addPointsToUser(hitchikerLocation.getPickerUid(), -5, new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     changeState(5);
@@ -164,7 +164,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     }
 
     private void updateUiStateCode2() {
-        userDatabase.getUser(hitchikerLocation.getPickerCode(), new UserCallback() {
+        userDatabase.getUser(hitchikerLocation.getPickerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText("Sharing ride with \n"+user);
@@ -173,6 +173,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
                 carHitchikerEndCodeEditText.setVisibility(View.VISIBLE);
                 carHitchikerConfirmButton.setText("End Ride");
                 carHitchikerDeclineButton.setText("Cancel Ride -10 points");
+                carHitchikerEndCode.setText(hitchikerLocation.getPickerEndCode());
             }
             @Override
             public void onError(Exception e){}

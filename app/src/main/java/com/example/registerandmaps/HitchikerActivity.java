@@ -110,9 +110,9 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
         for (HitchikerLocation location : hitchikerLocationListener.getLocations()) {
-            if (location.getPickerCode().equals("") || location.getPickerCode() == null || location.getSharerCode().equals(userId) ){
+            if (location.getPickerUid().equals("") || location.getPickerUid() == null || location.getSharerUid().equals(userId) ){
                 LatLng latLng = new LatLng(location.getLat(), location.getLng());
-                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.getSharerCode()));
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.getSharerUid()));
                 markerLocationMap.put(marker, location);
             }
         }
@@ -127,9 +127,9 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
             mMap.clear(); // Clear old markers
             markerLocationMap.clear();//clear old markers in hashmap
             for (HitchikerLocation location : hitchikerLocationListener.getLocations()) {
-                if (location.getPickerCode().equals("") || location.getPickerCode() == null || location.getSharerCode().equals(userId)){
+                if (location.getPickerUid().equals("") || location.getPickerUid() == null || location.getSharerUid().equals(userId)){
                     LatLng latLng = new LatLng(location.getLat(), location.getLng());
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.getSharerCode()));
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.getSharerUid()));
                     markerLocationMap.put(marker, location);
                 }
             }

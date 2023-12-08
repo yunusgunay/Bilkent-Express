@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.registerandmaps.Database.HitchikerLocationListener;
 import com.example.registerandmaps.Database.UserDatabase;
 import com.example.registerandmaps.Models.HitchikerLocation;
 import com.example.registerandmaps.Models.User;
@@ -22,8 +21,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.Serializable;
 
 public class UserHitchikerFragment extends Fragment{
     private TextView endCodeUserHitchiker;
@@ -92,8 +89,8 @@ public class UserHitchikerFragment extends Fragment{
     }
 
     private void endRide() {
-        if (String.valueOf(userHitchikerEndCodeEditText.getText()).trim().equals("31")){
-            userDatabase.addPointsToUser(hitchikerLocation.getPickerCode(), 5, new OnCompleteListener() {
+        if (String.valueOf(userHitchikerEndCodeEditText.getText()).trim().equals(hitchikerLocation.getPickerEndCode())){
+            userDatabase.addPointsToUser(hitchikerLocation.getPickerUid(), 5, new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     changeState(5);
@@ -103,7 +100,7 @@ public class UserHitchikerFragment extends Fragment{
     }
 
     private void cancelRide() {
-            userDatabase.addPointsToUser(hitchikerLocation.getSharerCode(), -5, new OnCompleteListener() {
+            userDatabase.addPointsToUser(hitchikerLocation.getSharerUid(), -5, new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     changeState(5);
@@ -114,7 +111,7 @@ public class UserHitchikerFragment extends Fragment{
     private void changeState(int state) {
         if (hitchikerLocation != null) {
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerCode()).child("status");
+            DatabaseReference locationRef = databaseRef.child("Hitchike").child(hitchikerLocation.getSharerUid()).child("status");
             locationRef.setValue(state);
         }
     }
@@ -122,7 +119,7 @@ public class UserHitchikerFragment extends Fragment{
 
     public void updateUIForState(int statusCode, HitchikerLocation hitchikerLocation) {
         this.hitchikerLocation = hitchikerLocation;
-        Log.d("status1", hitchikerLocation.getSharerCode());
+        Log.d("status1", hitchikerLocation.getSharerUid());
         if (statusCode == 1){
             status1uiupdate();
         }
@@ -133,7 +130,7 @@ public class UserHitchikerFragment extends Fragment{
     }
 
     private void status1uiupdate() {
-        userDatabase.getUser(hitchikerLocation.getPickerCode(), new UserCallback() {
+        userDatabase.getUser(hitchikerLocation.getPickerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
                 Log.d("status1",user.toString());
@@ -145,12 +142,14 @@ public class UserHitchikerFragment extends Fragment{
     }
 
     private void status2uiupdate() {
-        userDatabase.getUser(hitchikerLocation.getPickerCode(), new UserCallback() {
+        userDatabase.getUser(hitchikerLocation.getPickerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
+                endCodeUserHitchiker.setText(hitchikerLocation.getSharerEndCode());
                 userInfoUserHitchiker.setText("Sharing ride with \n"+user);
                 userHitchikerConfirmButton.setText("End Ride");
                 userHitchikerDeclineButton.setText("Cancel Ride -10 points");
+                endCodeUserHitchiker.setVisibility(View.VISIBLE);
             }
             @Override
             public void onError(Exception e){}
