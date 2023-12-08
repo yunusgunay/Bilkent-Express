@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarTaxiScreen">
+    tools:context=".UserTaxiFragment">
+
 
     <TextView
-        android:id="@+id/carTaxiEndCode"
+        android:id="@+id/endCodeUserTaxi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:text="endcode"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,46 +20,47 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/carTaxiUserinfo"
+        android:id="@+id/UserInfoUserTaxi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="User info"
+        android:layout_marginTop="48dp"
+        android:text="user info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carTaxiEndCode" />
+        app:layout_constraintTop_toBottomOf="@+id/endCodeUserTaxi" />
 
     <EditText
-        android:id="@+id/carTaxiEndCodeEditTExt"
+        android:id="@+id/userTaxiEndCodeEditTExt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="228dp"
         android:ems="10"
         android:inputType="text"
-        android:text="enter end code"
+        android:text="enteEndCode"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carTaxiUserinfo" />
+        app:layout_constraintTop_toBottomOf="@+id/UserInfoUserTaxi" />
 
     <Button
-        android:id="@+id/carTaxiConfirm"
+        android:id="@+id/userTaxiConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="28dp"
         android:text="Confrim"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carTaxiEndCodeEditTExt" />
+        app:layout_constraintTop_toBottomOf="@+id/userTaxiEndCodeEditTExt" />
 
     <Button
-        android:id="@+id/CarTaxiDecline"
+        android:id="@+id/userTaxiDecline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="40dp"
         android:text="Decline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carTaxiConfirm" />
+        app:layout_constraintTop_toBottomOf="@+id/userTaxiConfirm" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

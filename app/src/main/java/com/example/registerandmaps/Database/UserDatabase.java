@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.Map;
 
@@ -81,6 +82,38 @@ public class UserDatabase {
                     }
                     return null;
                 }).addOnCompleteListener(onCompleteListener);
+    }
+
+    public void getUserWithMostPoints(final UserCallback callback) {
+        db.collection("users")
+                .orderBy("points", Query.Direction.DESCENDING)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                        callback.onCallback(user);
+                    } else {
+                        callback.onError(new Exception("No users found"));
+                    }
+                })
+                .addOnFailureListener(callback::onError);
+    }
+
+    public void getUserWithLeastPoints(final UserCallback callback) {
+        db.collection("users")
+                .orderBy("points", Query.Direction.ASCENDING)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        User user = queryDocumentSnapshots.getDocuments().get(0).toObject(User.class);
+                        callback.onCallback(user);
+                    } else {
+                        callback.onError(new Exception("No users found"));
+                    }
+                })
+                .addOnFailureListener(callback::onError);
     }
 
 }

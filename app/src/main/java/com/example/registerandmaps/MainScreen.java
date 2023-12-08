@@ -20,8 +20,8 @@ public class MainScreen extends AppCompatActivity {
         Button buttonTaxi = findViewById(R.id.button_taxi);
         Button buttonHitchhiking = findViewById(R.id.button_hitchhiking);
         Button buttonProfile = findViewById(R.id.button_profile);
+        Button buttonLeaderBoard = findViewById(R.id.button_leaderboard);
 
-        // Set up click listeners for each button
         buttonRing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +33,8 @@ public class MainScreen extends AppCompatActivity {
         buttonTaxi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MainScreen.this, TaxiActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -49,6 +51,14 @@ public class MainScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainScreen.this, ProfileScreen.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonLeaderBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainScreen.this, LeaderBoard.class);
                 startActivity(intent);
             }
         });

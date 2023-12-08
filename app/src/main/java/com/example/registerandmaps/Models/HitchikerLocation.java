@@ -8,7 +8,6 @@ public class HitchikerLocation implements Serializable {
     private double lng;
     private int status;
     private String pickerUid;
-
     private String sharerUid;
 
     private String pickerEndCode;

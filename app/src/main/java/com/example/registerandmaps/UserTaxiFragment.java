@@ -2,63 +2,153 @@ package com.example.registerandmaps;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserTaxiFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class UserTaxiFragment extends Fragment {
+import com.example.registerandmaps.Database.UserDatabase;
+import com.example.registerandmaps.Models.TaxiLocation;
+import com.example.registerandmaps.Models.User;
+import com.example.registerandmaps.Models.UserCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class UserTaxiFragment extends Fragment{
+    private TextView endCodeUserTaxi;
+    private TextView userInfoUserTaxi;
+    private EditText userTaxiEndCodeEditText ;
+    private Button userTaxiConfirmButton;
+    private Button userTaxiDeclineButton;
+    private UserDatabase userDatabase;
+    private TaxiLocation taxiLocation;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
+    // No need for factory method and parameters if not used
     public UserTaxiFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CarTaxiFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserTaxiFragment newInstance(String param1, String param2) {
-        UserTaxiFragment fragment = new UserTaxiFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_car_taxi, container, false);
+        return inflater.inflate(R.layout.fragment_user_taxi, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            taxiLocation = (TaxiLocation) getArguments().getSerializable("taxiLocation");
+        }
+
+        userDatabase = new UserDatabase();
+        // Initialize your views here using view.findViewById
+        endCodeUserTaxi = view.findViewById(R.id.endCodeUserTaxi);
+        userInfoUserTaxi = view.findViewById(R.id.UserInfoUserTaxi);
+        userTaxiEndCodeEditText = view.findViewById(R.id.userTaxiEndCodeEditTExt);
+        userTaxiConfirmButton = view.findViewById(R.id.userTaxiConfirm);
+        userTaxiDeclineButton = view.findViewById(R.id.userTaxiDecline);
+
+        userTaxiConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (taxiLocation.getStatus() == 2){
+                    endRide();
+                }
+                else {
+                    changeState(2);
+                }
+            }
+        });
+
+        userTaxiDeclineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (taxiLocation.getStatus() == 2){
+                    cancelRide();
+                }
+                else {
+                    changeState(5);
+                }
+            }
+        });
+
+        status1uiupdate();
+    }
+
+    private void endRide() {
+            userDatabase.addPointsToUser(taxiLocation.getPickerUid(), 5, new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    changeState(5);
+                }
+            });
+    }
+
+    private void cancelRide() {
+        userDatabase.addPointsToUser(taxiLocation.getSharerUid(), -5, new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                changeState(5);
+            }
+        });
+    }
+
+    private void changeState(int state) {
+        if (taxiLocation != null) {
+            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference locationRef = databaseRef.child("Taxi").child(taxiLocation.getSharerUid()).child("status");
+            locationRef.setValue(state);
+        }
+    }
+
+
+    public void updateUIForState(int statusCode, TaxiLocation taxiLocation) {
+        this.taxiLocation = taxiLocation;
+        Log.d("status1", taxiLocation.getSharerUid());
+        if (statusCode == 1){
+            status1uiupdate();
+        }
+        if (statusCode == 2){
+            userTaxiEndCodeEditText.setVisibility(View.VISIBLE);
+            status2uiupdate();
+        }
+    }
+
+    private void status1uiupdate() {
+        userDatabase.getUser(taxiLocation.getPickerUid(), new UserCallback() {
+            @Override
+            public void onCallback(User user) {
+                Log.d("status1",user.toString());
+                userInfoUserTaxi.setText(user+ "\n wants to pick you up");
+            }
+            @Override
+            public void onError(Exception e){}
+        });
+    }
+
+    private void status2uiupdate() {
+        userDatabase.getUser(taxiLocation.getPickerUid(), new UserCallback() {
+            @Override
+            public void onCallback(User user) {
+                userInfoUserTaxi.setText("Sharing ride with \n"+user);
+                userTaxiConfirmButton.setText("End Ride");
+                userTaxiDeclineButton.setText("Cancel Ride -10 points");
+            }
+            @Override
+            public void onError(Exception e){}
+        });
     }
 }
