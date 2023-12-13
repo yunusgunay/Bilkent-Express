@@ -89,21 +89,11 @@ public class UserTaxiFragment extends Fragment{
     }
 
     private void endRide() {
-            userDatabase.addPointsToUser(taxiLocation.getPickerUid(), 5, new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    changeState(5);
-                }
-            });
+        changeState(5);
     }
 
     private void cancelRide() {
-        userDatabase.addPointsToUser(taxiLocation.getSharerUid(), -5, new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                changeState(5);
-            }
-        });
+        changeState(5);
     }
 
     private void changeState(int state) {

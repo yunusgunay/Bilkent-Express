@@ -56,7 +56,7 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
         userDatabase.getUser(taxiLocation.getSharerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
-                carTaxiUserInfo.setText(user.toString());
+                carTaxiUserInfo.setText(user.toString()+"\n destination is:"+taxiLocation.getLocation());
                 carTaxiConfirmButton.setText("Share ride +5");
                 carTaxiDeclineButton.setText("Dont Share ride");
             }
@@ -143,21 +143,11 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
     }
 
     private void endRide() {
-            userDatabase.addPointsToUser(taxiLocation.getPickerUid(), 5, new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    changeState(5);
-                }
-            });
+        changeState(5);
     }
 
     private void cancelRide() {
-        userDatabase.addPointsToUser(taxiLocation.getPickerUid(), -5, new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                changeState(5);
-            }
-        });
+        changeState(5);
     }
 
     private void updateUiStateCode2() {
