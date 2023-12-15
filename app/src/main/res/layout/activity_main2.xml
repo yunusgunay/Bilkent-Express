@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HitchikerActivity">
+    tools:context=".HitchikerActivity"
+    android:background="#accbee">
+
 
     <!-- Map Fragment -->
     <FrameLayout
@@ -14,7 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonBar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+    </FrameLayout>
 
     <!-- Button Bar at the bottom -->
     <LinearLayout
@@ -31,34 +34,42 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ring" />
+            android:text="Ring"
+            android:textSize="15dp"
+            android:fontFamily="@font/rockwell"/>
 
         <Button
             android:id="@+id/buttonHitchhike"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hitchhike" />
+            android:text="HITCHHIKE"
+            android:textSize="15dp"
+            android:fontFamily="@font/rockwell" />
 
         <Button
             android:id="@+id/buttonTaxi"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Taxi" />
+            android:text="Taxi"
+            android:textSize="15dp"
+            android:fontFamily="@font/rockwell"/>
     </LinearLayout>
+
 
     <!-- Floating Action Button on top of the map fragment -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="129dp"
         android:layout_height="102dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="290dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/fab"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/hitchikeContainer"
         app:layout_constraintEnd_toEndOf="@+id/hitchikeContainer"
-        app:layout_constraintRight_toRightOf="@+id/hitchikeContainer" />
+        app:layout_constraintRight_toRightOf="@+id/hitchikeContainer"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

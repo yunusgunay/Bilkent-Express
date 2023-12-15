@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 
@@ -18,6 +19,7 @@ import com.example.registerandmaps.Database.TaxiLocationListener;
 import com.example.registerandmaps.Database.TaxiUserLocationListener;
 import com.example.registerandmaps.Models.StateHandler;
 import com.example.registerandmaps.Models.TaxiLocation;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,6 +45,9 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TaxiUserLocationListener taxiUserLocationListener;
     private boolean isLocationAdded;
     String userId;
+    private Button buttonRing;
+    private Button buttonHitchhike;
+    private Button buttonTaxi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,31 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_taxi);
+
+        buttonRing = findViewById(R.id.buttonRing);
+        buttonHitchhike = findViewById(R.id.buttonHitchhike);
+        buttonTaxi = findViewById(R.id.buttonTaxi);
+
+        buttonRing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openRingActivity();
+            }
+        });
+
+        buttonHitchhike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHitchhikeActivity();
+            }
+        });
+
+        buttonTaxi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTaxiActivity();
+            }
+        });
 
         showMapScreen();
 
@@ -70,6 +100,21 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+    }
+
+    private void openRingActivity() {
+        Intent intent = new Intent(this, RingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openHitchhikeActivity() {
+        Intent intent = new Intent(this, HitchikerActivity.class);
+        startActivity(intent);
+    }
+
+    private void openTaxiActivity() {
+        Intent intent = new Intent(this, TaxiActivity.class);
+        startActivity(intent);
     }
 
     private void showDestinationDialog() {
@@ -102,8 +147,8 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void addLocationToTaxi(String destination) {
         // Create a new location object
         // Base coordinates for the location (for example, your location)
-        double baseLat = 34.0522;
-        double baseLng = 32.7340074;
+        double baseLat = 39.875275;
+        double baseLng = 32.748524;
         int status = 0;
         Random random = new Random();
         // Generate random values to add/subtract from the base coordinates to simulate nearby locations
@@ -141,6 +186,13 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+
+        LatLng bilkent = new LatLng(39.875275, 32.748524);
+        float zoomLevel = 13.0f;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bilkent, zoomLevel));
+
         for (TaxiLocation location : taxiLocationListener.getLocations()) {
             if (location.getPickerUid().equals("") || location.getPickerUid() == null || location.getSharerUid().equals(userId) ){
                 LatLng latLng = new LatLng(location.getLat(), location.getLng());
@@ -252,6 +304,13 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
             finish();
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainScreen.class);
+        startActivity(intent);
+        finish();
     }
 
 }

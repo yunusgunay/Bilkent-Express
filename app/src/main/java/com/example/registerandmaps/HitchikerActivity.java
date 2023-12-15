@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.registerandmaps.Database.HitchikerLocationListener;
 import com.example.registerandmaps.Database.HitchikeUserLocationListener;
 import com.example.registerandmaps.Models.HitchikerLocation;
 import com.example.registerandmaps.Models.StateHandler;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +40,9 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
     private HitchikeUserLocationListener hitchikeUserLocationListener;
     private boolean isLocationAdded;
     String userId;
+    private Button buttonRing;
+    private Button buttonHitchhike;
+    private Button buttonTaxi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,32 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        buttonRing = findViewById(R.id.buttonRing);
+        buttonHitchhike = findViewById(R.id.buttonHitchhike);
+        buttonTaxi = findViewById(R.id.buttonTaxi);
+
+        buttonRing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openRingActivity();
+            }
+        });
+
+        buttonHitchhike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHitchhikeActivity();
+            }
+        });
+
+        buttonTaxi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTaxiActivity();
+            }
+        });
+
 
         showMapScreen();
 
@@ -67,36 +98,49 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
+    private void openRingActivity() {
+        Intent intent = new Intent(this, RingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openHitchhikeActivity() {
+        Intent intent = new Intent(this, HitchikerActivity.class);
+        startActivity(intent);
+    }
+
+    private void openTaxiActivity() {
+        Intent intent = new Intent(this, TaxiActivity.class);
+        startActivity(intent);
+    }
+
     private void addLocationToHitchike() {
-        // Create a new location object
-        // Base coordinates for the location (for example, your location)
-        double baseLat = 34.0522;
-        double baseLng = 32.7340074;
+        double baseLat = 39.875275;
+        double baseLng = 32.748524;
         int status = 0;
         Random random = new Random();
+
         // Generate random values to add/subtract from the base coordinates to simulate nearby locations
         double randomLat = baseLat + (random.nextDouble() * 0.01 - 0.005); // fluctuate within ~1km range
         double randomLng = baseLng + (random.nextDouble() * 0.01 - 0.005); // fluctuate within ~1km range
         HitchikerLocation newLocation = new HitchikerLocation(randomLat,randomLng,status,"",userId);
-        // Get the reference to the "Hitchike" node in the database
+
         DatabaseReference hitchikeRef = FirebaseDatabase.getInstance().getReference("Hitchike");
         String locationId = userId;
-        Log.d("locationAdder","adding location");
-        // Add the location to the "Hitchike" node using the locationId as the key
+
+
         hitchikeRef.child(locationId).setValue(newLocation).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("locationAdder","added Location");
-                        createHitchikeUserLocationListener(locationId);
-                        isLocationAdded = true;
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("locationAdder","added Location");
+                createHitchikeUserLocationListener(locationId);
+                isLocationAdded = true;
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                         // Failed to add the location
-                        Log.d("locationAdder",e.getMessage());
-                    }
+                    Log.d("locationAdder",e.getMessage());
+                }
                 });
 
     }
@@ -105,10 +149,17 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
         hitchikeUserLocationListener = new HitchikeUserLocationListener(this,locationId);
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+
+        LatLng bilkent = new LatLng(39.875275, 32.748524);
+        float zoomLevel = 13.0f;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bilkent, zoomLevel));
         for (HitchikerLocation location : hitchikerLocationListener.getLocations()) {
             if (location.getPickerUid().equals("") || location.getPickerUid() == null || location.getSharerUid().equals(userId) ){
                 LatLng latLng = new LatLng(location.getLat(), location.getLng());
@@ -116,12 +167,10 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
                 markerLocationMap.put(marker, location);
             }
         }
-
     }
 
     @Override
     public void locationUpdated() {
-        // This will be called when the location listener detects a change
         // Update the map with new markers
         if (mMap != null) {
             mMap.clear(); // Clear old markers
@@ -220,6 +269,13 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
             finish();
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainScreen.class);
+        startActivity(intent);
+        finish();
     }
 
 }
