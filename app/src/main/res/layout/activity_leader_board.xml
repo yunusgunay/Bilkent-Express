@@ -6,13 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".LeaderBoard">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBack"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#f9d423"
+        android:drawableEnd="@drawable/back_icon" />
+
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/videoView2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/coral_candy"
+        android:text="BILKENT EXPRESS"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toTopOf="@id/videoView2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_above="@id/mostPointsUser" />
+
+
     <TextView
         android:id="@+id/mostPointsUser"
-        android:layout_width="197dp"
-        android:layout_height="171dp"
-        android:layout_marginTop="80dp"
-        android:text="fetching .. "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="250dp"
+        android:text="."
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,9 +58,10 @@
         android:layout_width="197dp"
         android:layout_height="171dp"
         android:layout_marginTop="144dp"
-        android:text="fetching ..."
+        android:text="."
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mostPointsUser" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
