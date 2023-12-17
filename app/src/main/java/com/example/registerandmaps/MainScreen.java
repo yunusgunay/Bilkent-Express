@@ -94,7 +94,7 @@ public class MainScreen extends AppCompatActivity {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        MainScreen.super.onBackPressed();
+                        finishAffinity();
                     }
                 })
                 .show();

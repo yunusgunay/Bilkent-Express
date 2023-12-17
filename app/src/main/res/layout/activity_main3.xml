@@ -4,17 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RingActivity">
+    tools:context=".RingActivity"
+    android:background="@drawable/login_background_3">
 
-    <!-- Ring Line Dropdown -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBack"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#f9d423"
+        android:drawableEnd="@drawable/back_icon" />
 
-    <!-- Itinerary Title -->
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonRing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RING"
+            android:textSize="15dp"
+            android:fontFamily="@font/rockwell"/>
+
+        <Button
+            android:id="@+id/buttonHitchhike"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hitchhike"
+            android:textSize="15dp"
+            android:fontFamily="@font/rockwell" />
+
+        <Button
+            android:id="@+id/buttonTaxi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Taxi"
+            android:textSize="15dp"
+            android:fontFamily="@font/rockwell"/>
+    </LinearLayout>
 
     <Spinner
         android:id="@+id/spinnerRingLine"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="45dp"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -31,8 +78,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="ITINERARY:"
+        android:text=" ITINERARY "
         android:textStyle="bold"
+        android:textSize="25sp"
+        android:fontFamily="@font/coral_candy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinnerRingLine" />

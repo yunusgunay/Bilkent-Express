@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import com.example.registerandmaps.Database.HitchikerLocationListener;
 import com.example.registerandmaps.Database.HitchikeUserLocationListener;
@@ -28,7 +32,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -43,6 +49,8 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
     private Button buttonRing;
     private Button buttonHitchhike;
     private Button buttonTaxi;
+    private Button back;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +83,15 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
             @Override
             public void onClick(View view) {
                 openTaxiActivity();
+            }
+        });
+
+        back = findViewById(R.id.btnBack);
+        back.setBackgroundColor(Color.parseColor("#f9d423"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
