@@ -1,3 +1,4 @@
+
 package com.example.registerandmaps.Models;
 
 import android.os.Build;
@@ -23,10 +24,6 @@ public class TimeGuesser {
 
         // Define bus stops and distances
         String[] stops = {"East Campus", "Main Campus", "Nizamiye", "ODTU", "Armada", "Asti", "Bahcelievler"};
-        double[] distances = {2.5, 2.6, 5.0, 2.8, 1.0, 4.4};
-
-        // Define bus speed
-        double speed = 30.0;
 
         // Rest of the dmb method logic...
         if (stopIndex < 1 || stopIndex > stops.length) {
@@ -36,64 +33,249 @@ public class TimeGuesser {
         // Get current time
         int hour = java.time.LocalTime.now().getHour();
         int minute = java.time.LocalTime.now().getMinute();
-        int currentTime = hour * 100 + minute;
+        int currentTime = hour * 60 + minute;
 
-        String stopDemanded = stops[stopIndex - 1];
-
-        // Calculate arrival time and next bus
-        double arrivalTime = arrivalToStation(speed, distances, stops, stopDemanded);
-        int nextBus = findNextBus(busStartTime, currentTime, NUM_BUSES, (int) arrivalTime);
-        if (nextBus != -1) {
-            return createTimeDifferenceMessage(currentTime, nextBus);
-        } else {
-            return "There are no more buses for today.";
-        }
-    }
-
-
-    private String createTimeDifferenceMessage(int currentTime, int nextBus) {
-        int currentHour = currentTime / 100;
-        int currentMinute = currentTime % 100;
-        int busHour = nextBus / 100;
-        int busMinute = nextBus % 100;
-
-        int diffMinute = (busHour * 60 - currentHour * 60) + (busMinute - currentMinute);
-        int restHour = diffMinute / 60;
-        int restMin = diffMinute % 60;
-        if (restHour == 0) {
-            return "The bus will arrive in " + restMin + " minutes.";
-        } else if (restHour == 1) {
-            return "The bus will arrive in " + restHour + " hour and " + restMin + " minutes.";
-        } else {
-            return "The bus will arrive in " + restHour + " hours and " + restMin + " minutes.";
-        }
-    }
-    private int findNextBus(int[] schedule, int currentTime, int numBuses, int arrivalTime) {
-        for (int i = 0; i < numBuses; i++) {
-            if (schedule[i] > currentTime) {
-                if (i > 0 && schedule[i - 1] + arrivalTime > currentTime) {
-                    return schedule[i - 1];
-                } else {
-                    return schedule[i];
-                }
+        if (stopIndex == 1) {
+            if (30-minute>=0) {
+                return "The bus will arrive in " + (30-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (90-minute) + " minutes.";
+            }
+        } else if (stopIndex == 2) {
+            if (40-minute>=0) {
+                return "The bus will arrive in " + (40-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (100-minute) + " minutes.";
+            }
+        } else if (stopIndex == 3) {
+            if (45-minute>=0) {
+                return "The bus will arrive in " + (45-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (105-minute) + " minutes.";
+            }
+        } else if (stopIndex == 4) {
+            if (55-minute>=0) {
+                return "The bus will arrive in " + (55-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (115-minute) + " minutes.";
+            }
+        } else if (stopIndex == 5) {
+            if (58-minute>=0) {
+                return "The bus will arrive in " + (58-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (118-minute) + " minutes.";
+            }
+        } else if (stopIndex == 6) {
+            if (6-minute>=0) {
+                return "The bus will arrive in " + (6-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (66-minute) + " minutes.";
+            }
+        } else if (stopIndex == 7) {
+            if (10-minute>=0) {
+                return "The bus will arrive in " + (10-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (70-minute) + " minutes.";
             }
         }
-        return -1;
+        else {
+            return "";
+        }
     }
 
-    private double arrivalToStation(double speed, double[] distances, String[] stops, String stopDemanded) {
-        double totalTime = 0;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String bmd(int stopIndex) {
+        // Initialize bus start times
+        int[] busStartTime = new int[NUM_BUSES];
+        for (int i = 840, k = 0; k < NUM_BUSES; i += 100, k++) {
+            busStartTime[k] = i;
+        }
 
-        for (int i = 0; i < STOPS; ++i) {
-            if (i > 0) {
-                totalTime += distances[i - 1] / speed * 60;
-                totalTime += 1;
+        // Define bus stops and distances
+        String[] stops = { "Bahcelievler", "Asti",  "Armada", "ODTU", "Nizamiye", "Main Campus", "East Campus"};
+
+        // Rest of the dmb method logic...
+        if (stopIndex < 1 || stopIndex > stops.length) {
+            return "Invalid stop index. Please choose a number between 1 and " + stops.length + ".  " + stopIndex;
+        }
+
+        // Get current time
+        int hour = java.time.LocalTime.now().getHour();
+        int minute = java.time.LocalTime.now().getMinute();
+        int currentTime = hour * 60 + minute;
+
+        if (stopIndex == 1) {
+            if (50-minute>=0) {
+                return "The bus will arrive in " + (50-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (110-minute) + " minutes.";
             }
-            if (stops[i].equals(stopDemanded)) {
-                return totalTime;
+        } else if (stopIndex == 2) {
+            if (54-minute>=0) {
+                return "The bus will arrive in " + (54-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (114-minute) + " minutes.";
+            }
+        } else if (stopIndex == 3) {
+            if (2-minute>=0) {
+                return "The bus will arrive in " + (2-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (62-minute) + " minutes.";
+            }
+        } else if (stopIndex == 4) {
+            if (5-minute>=0) {
+                return "The bus will arrive in " + (5-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (65-minute) + " minutes.";
+            }
+        } else if (stopIndex == 5) {
+            if (15-minute>=0) {
+                return "The bus will arrive in " + (15-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (75-minute) + " minutes.";
+            }
+        } else if (stopIndex == 6) {
+            if (20-minute>=0) {
+                return "The bus will arrive in " + (20-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (80-minute) + " minutes.";
+            }
+        } else if (stopIndex == 7) {
+            if (30-minute>=0) {
+                return "The bus will arrive in " + (30-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (90-minute) + " minutes.";
             }
         }
-        return 0;
+        else {
+            return "";
+        }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String tmd(int stopIndex) {
+        // Initialize bus start times
+        int[] busStartTime = new int[NUM_BUSES];
+        for (int i = 840, k = 0; k < NUM_BUSES; i += 100, k++) {
+            busStartTime[k] = i;
+        }
+
+        // Define bus stops and distances
+        String[] stops = { "Tunus", "Armada", "ODTU", "Nizamiye", "Main Campus", "East Campus"};
+
+        // Rest of the dmb method logic...
+        if (stopIndex < 1 || stopIndex > stops.length) {
+            return "Invalid stop index. Please choose a number between 1 and " + stops.length + ".  " + stopIndex;
+        }
+
+        // Get current time
+        int hour = java.time.LocalTime.now().getHour();
+        int minute = java.time.LocalTime.now().getMinute();
+        int currentTime = hour * 60 + minute;
+
+        if (stopIndex == 1) {
+            if (40-minute>=0) {
+                return "The bus will arrive in " + (40-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (100-minute) + " minutes.";
+            }
+        } else if (stopIndex == 2) {
+            if (54-minute>=0) {
+                return "The bus will arrive in " + (54-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (114-minute) + " minutes.";
+            }
+        } else if (stopIndex == 3) {
+            if (2-minute>=0) {
+                return "The bus will arrive in " + (2-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (62-minute) + " minutes.";
+            }
+        } else if (stopIndex == 4) {
+            if (5-minute>=0) {
+                return "The bus will arrive in " + (5-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (65-minute) + " minutes.";
+            }
+        } else if (stopIndex == 5) {
+            if (15-minute>=0) {
+                return "The bus will arrive in " + (15-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (75-minute) + " minutes.";
+            }
+        } else if (stopIndex == 6) {
+            if (20-minute>=0) {
+                return "The bus will arrive in " + (20-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (80-minute) + " minutes.";
+            }
+        }
+        else {
+            return "";
+        }
+    }
+
+    public String dmt(int stopIndex) {
+        // Initialize bus start times
+        int[] busStartTime = new int[NUM_BUSES];
+        for (int i = 840, k = 0; k < NUM_BUSES; i += 100, k++) {
+            busStartTime[k] = i;
+        }
+
+        // Define bus stops and distances
+        String[] stops = { "East Campus", "Main Campus", "Nizamiye",  "ODTU", "Armada", "Tunus"};
+
+        // Rest of the dmb method logic...
+        if (stopIndex < 1 || stopIndex > stops.length) {
+            return "Invalid stop index. Please choose a number between 1 and " + stops.length + ".  " + stopIndex;
+        }
+
+        // Get current time
+        int hour = java.time.LocalTime.now().getHour();
+        int minute = java.time.LocalTime.now().getMinute();
+        int currentTime = hour * 60 + minute;
+
+        if (stopIndex == 1) {
+            if (30-minute>=0) {
+                return "The bus will arrive in " + (30-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (90-minute) + " minutes.";
+            }
+        } else if (stopIndex == 2) {
+            if (40-minute>=0) {
+                return "The bus will arrive in " + (40-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (100-minute) + " minutes.";
+            }
+        } else if (stopIndex == 3) {
+            if (45-minute>=0) {
+                return "The bus will arrive in " + (45-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (105-minute) + " minutes.";
+            }
+        } else if (stopIndex == 4) {
+            if (55-minute>=0) {
+                return "The bus will arrive in " + (55-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (115-minute) + " minutes.";
+            }
+        } else if (stopIndex == 5) {
+            if (58-minute>=0) {
+                return "The bus will arrive in " + (58-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (118-minute) + " minutes.";
+            }
+        } else if (stopIndex == 6) {
+            if (16-minute>=0) {
+                return "The bus will arrive in " + (16-minute) + " minutes.";
+            } else {
+                return "The bus will arrive in " + (76-minute) + " minutes.";
+            }
+        }
+        else {
+            return "";
+        }
+    }
+
 
 }
