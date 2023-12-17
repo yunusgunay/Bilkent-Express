@@ -2,13 +2,19 @@ package com.example.registerandmaps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.example.registerandmaps.Database.HitchikeUserLocationListener;
 import com.example.registerandmaps.Database.UserDatabase;
@@ -34,12 +40,25 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     private HitchikeUserLocationListener hitchikeUserLocationListener;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String uid = mAuth.getUid();
+    private VideoView videoView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_hitchiker_screen);
+
+        videoView = findViewById(R.id.videoView4);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.key);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
 
 
         // Initialize views
@@ -53,12 +72,19 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
         Intent intent = getIntent();
         hitchikerLocation = (HitchikerLocation) intent.getSerializableExtra("hitchikerLocation");
 
+        Typeface font = ResourcesCompat.getFont(this, R.font.coral_candy);
         userDatabase.getUser(hitchikerLocation.getSharerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText(user.toString());
-                carHitchikerConfirmButton.setText("Share ride +5");
-                carHitchikerDeclineButton.setText("Dont Share ride");
+                carHitchikerUserInfo.setTypeface(font);
+                carHitchikerUserInfo.setTextSize(20);
+                carHitchikerUserInfo.setTextColor(Color.WHITE);
+                int grayColor = Color.parseColor("#80000000");
+                carHitchikerUserInfo.setBackgroundColor(grayColor);
+
+                carHitchikerConfirmButton.setText(" Share Ride (+5) ");
+                carHitchikerDeclineButton.setText(" Don't Share Ride ");
             }
             @Override
             public void onError(Exception e) {}
@@ -181,13 +207,33 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     }
 
     private void updateUiStateCode1(){
-        carHitchikerUserInfo.setText("waiting");
-        carHitchikerConfirmButton.setText("cancel");
+        carHitchikerUserInfo.setText(" •ᴗ• WAITING... ");
+        carHitchikerUserInfo.setVisibility(View.VISIBLE);
+        carHitchikerUserInfo.setTypeface(ResourcesCompat.getFont(this, R.font.coral_candy));
+        carHitchikerUserInfo.setTextSize(40);
+        carHitchikerUserInfo.setTextColor(Color.WHITE);
+
+
+        carHitchikerConfirmButton.setText(" Cancel ");
+        carHitchikerConfirmButton.setVisibility(View.VISIBLE);
         carHitchikerDeclineButton.setVisibility(View.GONE);
+
+        videoView = findViewById(R.id.videoView4);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.waiting_screen);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
+
     }
 
     @Override
     public void locationUpdated() {
-        // bu niye var bilmiyorum bunları ayırmam lazım :(
+
     }
 }

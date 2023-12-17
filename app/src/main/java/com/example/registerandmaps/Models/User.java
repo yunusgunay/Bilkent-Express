@@ -69,10 +69,19 @@ public class User {
 
     @Override
     public String toString() {
-        return "Name: " + name + "\n" +
-                "Number: " + number + "\n" +
-                "Email: " + email + "\n" +
-                "Points: " + points + "\n" +
-                "Info: " + info;
+        return  " \n"
+                + "name: " + name + "\n"
+                + " \n"
+                + "phone number: " + "\n"
+                + number + "\n"
+                + " \n"
+                + "email: " + "\n"
+                + email + "\n"
+                + " \n"
+                + "points: " + points + "\n"
+                + " \n"
+                + "biography: " + "\n"
+                + info + "\n"
+                + " \n";
     }
 }

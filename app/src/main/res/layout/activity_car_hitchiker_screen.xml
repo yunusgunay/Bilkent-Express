@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".CarHitchikerScreen">
 
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/videoView4"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
+
+
     <TextView
         android:id="@+id/carHitchikerEndCode"
         android:layout_width="wrap_content"
@@ -22,8 +30,9 @@
         android:id="@+id/carHitchikerUserinfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="User info"
+        android:layout_marginTop="150dp"
+        android:text="User"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,19 +55,23 @@
         android:id="@+id/carHitchikerConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:text="Confrim"
+        android:text=" CONFIRM "
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/coral_candy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carHitcihkerEndCodeEditTExt" />
+        app:layout_constraintBottom_toTopOf="@+id/CarHitchikerDecline" />
 
     <Button
         android:id="@+id/CarHitchikerDecline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="Decline"
+        android:text=" Decline "
+        android:textSize="20sp"
+        android:fontFamily="@font/coral_candy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carHitchikerConfirm" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
