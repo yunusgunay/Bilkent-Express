@@ -215,6 +215,7 @@ public class TimeGuesser {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String dmt(int stopIndex) {
         // Initialize bus start times
         int[] busStartTime = new int[NUM_BUSES];
