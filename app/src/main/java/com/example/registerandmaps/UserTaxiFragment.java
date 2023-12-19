@@ -122,7 +122,8 @@ public class UserTaxiFragment extends Fragment{
             @Override
             public void onCallback(User user) {
                 Log.d("status1",user.toString());
-                userInfoUserTaxi.setText(user+ "\n wants to pick you up");
+                userInfoUserTaxi.setText(user+ "\n wants to pick you up.");
+
             }
             @Override
             public void onError(Exception e){}
@@ -133,9 +134,9 @@ public class UserTaxiFragment extends Fragment{
         userDatabase.getUser(taxiLocation.getPickerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
-                userInfoUserTaxi.setText("Sharing ride with \n"+user);
-                userTaxiConfirmButton.setText("End Ride");
-                userTaxiDeclineButton.setText("Cancel Ride -10 points");
+                userInfoUserTaxi.setText(" Sharing Ride With: \n"+user);
+                userTaxiConfirmButton.setText(" End Ride ");
+                userTaxiDeclineButton.setText(" Cancel Ride (-10) ");
             }
             @Override
             public void onError(Exception e){}

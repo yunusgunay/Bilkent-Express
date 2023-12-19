@@ -1,41 +1,49 @@
 package com.example.registerandmaps;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+        import androidx.appcompat.app.AlertDialog;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.fragment.app.Fragment;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.location.Address;
+        import android.location.Geocoder;
+        import android.os.Bundle;
+        import android.text.InputType;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.SearchView;
 
 
-import com.example.registerandmaps.Database.TaxiLocationListener;
-import com.example.registerandmaps.Database.TaxiUserLocationListener;
-import com.example.registerandmaps.Models.StateHandler;
-import com.example.registerandmaps.Models.TaxiLocation;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+        import com.example.registerandmaps.Database.TaxiLocationListener;
+        import com.example.registerandmaps.Database.TaxiUserLocationListener;
+        import com.example.registerandmaps.Models.StateHandler;
+        import com.example.registerandmaps.Models.TaxiLocation;
+        import com.google.android.gms.maps.CameraUpdateFactory;
+        import com.google.android.gms.maps.SupportMapFragment;
+        import com.google.android.gms.maps.OnMapReadyCallback;
+        import com.google.android.gms.maps.GoogleMap;
+        import com.google.android.gms.maps.model.BitmapDescriptor;
+        import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+        import com.google.android.gms.maps.model.LatLng;
+        import com.google.android.gms.maps.model.Marker;
+        import com.google.android.gms.maps.model.MarkerOptions;
+        import com.google.android.gms.tasks.OnFailureListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.android.material.floatingactionbutton.FloatingActionButton;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+        import java.io.IOException;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
+        import java.util.Random;
 
 public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallback, StateHandler<TaxiLocation>,GoogleMap.OnMarkerClickListener {
     private Map<Marker, TaxiLocation> markerLocationMap = new HashMap<>();// creates a key value system for storing location info
@@ -48,6 +56,8 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button buttonRing;
     private Button buttonHitchhike;
     private Button buttonTaxi;
+    private Button back;
+    private LatLng pendingMarkerLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +92,16 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
                 openTaxiActivity();
             }
         });
+
+        back = findViewById(R.id.btnBack);
+        back.setBackgroundColor(Color.parseColor("#f9d423"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
         showMapScreen();
 
@@ -145,38 +165,50 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void addLocationToTaxi(String destination) {
-        // Create a new location object
-        // Base coordinates for the location (for example, your location)
-        double baseLat = 39.875275;
-        double baseLng = 32.748524;
-        int status = 0;
-        Random random = new Random();
-        // Generate random values to add/subtract from the base coordinates to simulate nearby locations
-        double randomLat = baseLat + (random.nextDouble() * 0.01 - 0.005); // fluctuate within ~1km range
-        double randomLng = baseLng + (random.nextDouble() * 0.01 - 0.005); // fluctuate within ~1km range
-        TaxiLocation newLocation = new TaxiLocation(randomLat,randomLng,status,"",userId,destination);
-        // Get the reference to the "taxi" node in the database
-        DatabaseReference taxiRef = FirebaseDatabase.getInstance().getReference("Taxi");
-        String locationId = userId;
-        Log.d("locationAdder","adding location");
-        // Add the location to the "taxi" node using the locationId as the key
-        taxiRef.child(locationId).setValue(newLocation).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("locationAdder","added Location");
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addresses;
+        try {
+            // Try to get location from the destination string
+            addresses = geocoder.getFromLocationName(destination, 1);
+            if (addresses == null || addresses.isEmpty()) {
+                Log.e("Geocoder", "No location found for: " + destination);
+                return;
+            }
+            Address location = addresses.get(0);
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            pendingMarkerLatLng = new LatLng(lat, lng);
+
+            // Create a new location object with the retrieved latitude and longitude
+            TaxiLocation newLocation = new TaxiLocation(lat, lng, 0, "", userId, destination);
+
+            // Add the location to the database and map
+            DatabaseReference taxiRef = FirebaseDatabase.getInstance().getReference("Taxi");
+            String locationId = userId;
+            taxiRef.child(locationId).setValue(newLocation)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("locationAdder", "Added Location");
                         createTaxiUserLocationListener(locationId);
                         isLocationAdded = true;
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Failed to add the location
-                        Log.d("locationAdder",e.getMessage());
-                    }
-                });
+                        addMarkerToMap(pendingMarkerLatLng); // Add marker to the map
+                    })
+                    .addOnFailureListener(e -> Log.d("locationAdder", e.getMessage()));
 
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Geocoder", "Geocoder failed", e);
+        }
     }
+
+    private void addMarkerToMap(LatLng latLng) {
+        if (mMap != null) {
+            String markerTitle = "Destination";
+            mMap.addMarker(new MarkerOptions().position(latLng).title(markerTitle));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+        }
+    }
+
+
 
     private void createTaxiUserLocationListener(String locationId) {
         taxiUserLocationListener = new TaxiUserLocationListener(this,locationId);
@@ -201,24 +233,28 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
 
+        if (pendingMarkerLatLng != null) {
+            // Add the pending marker
+            addMarkerToMap(pendingMarkerLatLng);
+            pendingMarkerLatLng = null; // Clear the pending location
+        }
+
     }
 
     @Override
     public void locationUpdated() {
-        // This will be called when the location listener detects a change
-        // Update the map with new markers
         if (mMap != null) {
             mMap.clear(); // Clear old markers
-            markerLocationMap.clear();//clear old markers in hashmap
+            markerLocationMap.clear(); // Clear old markers in hashmap
+
             for (TaxiLocation location : taxiLocationListener.getLocations()) {
-                if (location.getPickerUid().equals("") || location.getPickerUid() == null || location.getSharerUid().equals(userId)){
-                    LatLng latLng = new LatLng(location.getLat(), location.getLng());
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.getSharerUid()));
-                    markerLocationMap.put(marker, location);
-                }
+                LatLng latLng = new LatLng(location.getLat(), location.getLng());
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.getSharerUid()));
+                markerLocationMap.put(marker, location);
             }
         }
     }
+
 
     @Override
     public void stateUpdated(int statusCode,TaxiLocation location) {
@@ -304,6 +340,20 @@ public class TaxiActivity extends AppCompatActivity implements OnMapReadyCallbac
             finish();
         }
         return false;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        taxiLocationListener = new TaxiLocationListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (taxiLocationListener != null) {
+            taxiLocationListener.removeListener();
+        }
     }
 
     @Override

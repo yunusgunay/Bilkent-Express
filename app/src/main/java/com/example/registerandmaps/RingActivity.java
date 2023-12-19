@@ -114,16 +114,16 @@ public class RingActivity extends AppCompatActivity {
         String[] stops;
         switch (selectedRingLine) {
             case 0:
-                stops = new String[]{"East Campus", "Main Campus", "Nizamiye",  "ODTU", "Armada", "Tunus"};
+                stops = new String[]{"➤ East Campus ", "➤ Main Campus ", "➤ Nizamiye ",  "➤ ODTU ", "➤ Armada ", "➤ Tunus "};
                 break;
             case 1:
-                stops = new String[]{"East Campus", "Main Campus", "Nizamiye", "ODTU", "Armada", "Asti", "Bahcelievler"};
+                stops = new String[]{"➤ East Campus ", "➤ Main Campus ", "➤ Nizamiye ", "➤ ODTU ", "➤ Armada ", "➤ ASTI ", "➤ Bahcelievler "};
                 break;
             case 2:
-                stops = new String[]{"Tunus", "Armada", "ODTU", "Nizamiye", "Main Campus", "East Campus"};
+                stops = new String[]{"➤ Tunus ", "➤ Armada ", "➤ ODTU ", "➤ Nizamiye ", "➤ Main Campus ", "➤ East Campus "};
                 break;
             case 3:
-                stops = new String[]{"Bahcelievler", "Asti",  "Armada", "ODTU", "Nizamiye", "Main Campus", "East Campus"};
+                stops = new String[]{"➤ Bahcelievler ", "➤ ASTI ",  "➤ Armada ", "➤ ODTU ", "➤ Nizamiye ", "➤ Main Campus ", "➤ East Campus "};
                 break;
             default:
                 stops = new String[]{};

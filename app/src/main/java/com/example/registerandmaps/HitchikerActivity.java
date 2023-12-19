@@ -2,12 +2,20 @@ package com.example.registerandmaps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +47,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCallback, StateHandler<HitchikerLocation>,GoogleMap.OnMarkerClickListener {
+    private static final int YOUR_PERMISSIONS_REQUEST_CODE = 1001;
     private Map<Marker, HitchikerLocation> markerLocationMap = new HashMap<>();// creates a key value system for storing location info
     private FirebaseAuth mAuth;
     private GoogleMap mMap;
@@ -109,7 +118,7 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
                     locationRef.setValue(5);
                 }
                 else {
-                    addLocationToHitchike();
+                    addLocationToHitchikeWithLocation();
                 }
             }
         });
@@ -160,6 +169,70 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
                 }
                 });
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == YOUR_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted
+                addLocationToHitchikeWithLocation();
+            } else {
+                // Permission was denied
+                // Handle the case where the user denies the permission
+            }
+        }
+    }
+
+    private void addLocationToHitchikeWithLocation() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // Check if GPS permission is granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Request permission if not granted
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, YOUR_PERMISSIONS_REQUEST_CODE);
+            return;
+        }
+
+        // Request a single location update
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                int status = 0;
+
+                HitchikerLocation newLocation = new HitchikerLocation(latitude, longitude, status, "", userId);
+
+                DatabaseReference hitchikeRef = FirebaseDatabase.getInstance().getReference("Hitchike");
+                String locationId = userId;
+                Log.d("locationAdder", "adding location");
+
+                hitchikeRef.child(locationId).setValue(newLocation).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("locationAdder", "added Location");
+                        createHitchikeUserLocationListener(locationId);
+                        isLocationAdded = true;
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("locationAdder", e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            @Override
+            public void onProviderEnabled(String provider) {}
+
+            @Override
+            public void onProviderDisabled(String provider) {}
+        }, null);
     }
 
     private void createHitchikeUserLocationListener(String locationId) {

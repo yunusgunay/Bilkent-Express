@@ -2,13 +2,19 @@ package com.example.registerandmaps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.example.registerandmaps.Database.TaxiUserLocationListener;
 import com.example.registerandmaps.Database.UserDatabase;
@@ -34,12 +40,25 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
     private TaxiUserLocationListener taxiUserLocationListener;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String uid = mAuth.getUid();
+    private VideoView videoView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_taxi);
+
+        videoView = findViewById(R.id.videoView5);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.flame_video);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
 
 
         // Initialize views
@@ -53,12 +72,19 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
         Intent intent = getIntent();
         taxiLocation = (TaxiLocation) intent.getSerializableExtra("taxiLocation");
 
+        Typeface font = ResourcesCompat.getFont(this, R.font.coral_candy);
         userDatabase.getUser(taxiLocation.getSharerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
-                carTaxiUserInfo.setText(user.toString()+"\n destination is:"+taxiLocation.getLocation());
-                carTaxiConfirmButton.setText("Share ride +5");
-                carTaxiDeclineButton.setText("Dont Share ride");
+                carTaxiUserInfo.setText(user.toString()+"\n destination is: \n" + taxiLocation.getLocation());
+                carTaxiUserInfo.setTypeface(font);
+                carTaxiUserInfo.setTextSize(20);
+                carTaxiUserInfo.setTextColor(Color.WHITE);
+                int backColor = Color.parseColor("#CCFFFFFF");
+                carTaxiUserInfo.setBackgroundColor(backColor);
+
+                carTaxiConfirmButton.setText(" Contact User (+5) ");
+                carTaxiDeclineButton.setText(" Don't Share Ride ");
             }
             @Override
             public void onError(Exception e) {}
@@ -154,11 +180,11 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
         userDatabase.getUser(taxiLocation.getPickerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
-                carTaxiUserInfo.setText("Sharing ride with \n"+user);
+                carTaxiUserInfo.setText("Sharing Ride With: \n"+user);
                 carTaxiDeclineButton.setVisibility(View.VISIBLE);
                 carTaxiEndCodeEditText.setVisibility(View.VISIBLE);
-                carTaxiConfirmButton.setText("End Ride");
-                carTaxiDeclineButton.setText("Cancel Ride -10 points");
+                carTaxiConfirmButton.setText(" End Ride ");
+                carTaxiDeclineButton.setText(" Cancel Ride (-10) ");
             }
             @Override
             public void onError(Exception e){}
@@ -166,9 +192,26 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
     }
 
     private void updateUiStateCode1(){
-        carTaxiUserInfo.setText("waiting");
-        carTaxiConfirmButton.setText("cancel");
+        carTaxiUserInfo.setText(" •ᴗ• WAITING... ");
+        carTaxiUserInfo.setVisibility(View.VISIBLE);
+        carTaxiUserInfo.setTypeface(ResourcesCompat.getFont(this, R.font.coral_candy));
+        carTaxiUserInfo.setTextSize(40);
+        carTaxiUserInfo.setTextColor(Color.BLACK);
+
+        carTaxiConfirmButton.setText(" Cancel ");
         carTaxiDeclineButton.setVisibility(View.GONE);
+
+        videoView = findViewById(R.id.videoView5);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.waiting_screen);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
     }
 
     @Override

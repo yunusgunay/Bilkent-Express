@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RingActivity"
-    android:background="@drawable/login_background_3">
+    android:background="@drawable/ring_background">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnBack"
@@ -60,27 +60,24 @@
     <Spinner
         android:id="@+id/spinnerRingLine"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_height="40dp"
         android:layout_marginTop="45dp"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Itinerary List -->
-
-
-    <!-- Status message -->
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/spinner" />
 
     <TextView
         android:id="@+id/textViewItineraryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:text=" ITINERARY "
         android:textStyle="bold"
-        android:textSize="25sp"
+        android:textSize="27sp"
         android:fontFamily="@font/coral_candy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,12 +99,16 @@
         android:id="@+id/textViewStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="55dp"
         android:gravity="center"
-        android:text="Ring arrives in 5 minutes.\nCurrent location: Armada"
+        android:text=" Ring arrives in 5 minutes. "
+        android:fontFamily="@font/rockwell"
+        android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewItinerary" />
+        app:layout_constraintTop_toBottomOf="@+id/listViewItinerary"
+        android:drawableBottom="@drawable/ring"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

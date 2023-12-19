@@ -9,6 +9,18 @@
     android:background="@drawable/login_background_2"
     tools:context=".Register">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBack"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#f9d423"
+        android:drawableEnd="@drawable/back_icon" />
+
     <Button
         android:id="@+id/register_button"
         android:layout_width="300dp"

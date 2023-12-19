@@ -193,12 +193,12 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
         userDatabase.getUser(hitchikerLocation.getPickerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
-                carHitchikerUserInfo.setText("Sharing ride with \n"+user);
+                carHitchikerUserInfo.setText("Sharing Ride With: \n"+user);
                 carHitchikerEndCode.setVisibility(View.VISIBLE);
                 carHitchikerDeclineButton.setVisibility(View.VISIBLE);
                 carHitchikerEndCodeEditText.setVisibility(View.VISIBLE);
-                carHitchikerConfirmButton.setText("End Ride");
-                carHitchikerDeclineButton.setText("Cancel Ride -10 points");
+                carHitchikerConfirmButton.setText(" End Ride ");
+                carHitchikerDeclineButton.setText(" Cancel Ride (-10) ");
                 carHitchikerEndCode.setText(hitchikerLocation.getPickerEndCode());
             }
             @Override

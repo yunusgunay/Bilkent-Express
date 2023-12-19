@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ public class Register extends AppCompatActivity {
     EditText phoneNumber;
     UserDatabase userDatabase;
     TextView errorText;
+    Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,17 @@ public class Register extends AppCompatActivity {
             register_via_firebase();
             }
         });
+
+        back = findViewById(R.id.btnBack);
+        back.setBackgroundColor(Color.parseColor("#f9d423"));
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackToLogin();
+            }
+        });
     }
+
     private void register_via_firebase() {
         String email_text = String.valueOf(email.getText());
         String password_text = String.valueOf(password.getText());
@@ -88,6 +100,12 @@ public class Register extends AppCompatActivity {
     private void updateUI() {
         // Java code inside Register Activity
         Intent intent = new Intent(this, MainScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onBackToLogin() {
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();
     }

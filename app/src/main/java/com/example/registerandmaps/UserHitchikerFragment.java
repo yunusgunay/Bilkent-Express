@@ -1,8 +1,10 @@
 package com.example.registerandmaps;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -134,7 +136,7 @@ public class UserHitchikerFragment extends Fragment{
             @Override
             public void onCallback(User user) {
                 Log.d("status1",user.toString());
-                userInfoUserHitchiker.setText(user+ "\n wants to pick you up");
+                userInfoUserHitchiker.setText(user+ "\n wants to pick you up.");
             }
             @Override
             public void onError(Exception e){}
@@ -146,9 +148,9 @@ public class UserHitchikerFragment extends Fragment{
             @Override
             public void onCallback(User user) {
                 endCodeUserHitchiker.setText(hitchikerLocation.getSharerEndCode());
-                userInfoUserHitchiker.setText("Sharing ride with \n"+user);
-                userHitchikerConfirmButton.setText("End Ride");
-                userHitchikerDeclineButton.setText("Cancel Ride -10 points");
+                userInfoUserHitchiker.setText(" Sharing Ride With: \n"+user);
+                userHitchikerConfirmButton.setText(" End Ride ");
+                userHitchikerDeclineButton.setText(" Cancel Ride (-10) ");
                 endCodeUserHitchiker.setVisibility(View.VISIBLE);
             }
             @Override
