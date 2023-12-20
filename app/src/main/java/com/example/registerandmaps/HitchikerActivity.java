@@ -173,21 +173,22 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d("locationAdder",requestCode+"");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == YOUR_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission was granted
                 addLocationToHitchikeWithLocation();
             } else {
-                // Permission was denied
-                // Handle the case where the user denies the permission
+                Log.d("locationAdder",requestCode+"");
+                Log.d("locationAdder", "adding location");
             }
         }
     }
 
     private void addLocationToHitchikeWithLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
+        Log.d("locationAdder","amkkk");
         // Check if GPS permission is granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Request permission if not granted
@@ -228,7 +229,9 @@ public class HitchikerActivity extends AppCompatActivity implements OnMapReadyCa
             public void onStatusChanged(String provider, int status, Bundle extras) {}
 
             @Override
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+
+            }
 
             @Override
             public void onProviderDisabled(String provider) {}

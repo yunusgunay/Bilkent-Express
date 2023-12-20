@@ -78,7 +78,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText(user.toString());
                 carHitchikerUserInfo.setTypeface(font);
-                carHitchikerUserInfo.setTextSize(20);
+                carHitchikerUserInfo.setTextSize(10);
                 carHitchikerUserInfo.setTextColor(Color.WHITE);
                 int grayColor = Color.parseColor("#80000000");
                 carHitchikerUserInfo.setBackgroundColor(grayColor);
@@ -190,7 +190,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
     }
 
     private void updateUiStateCode2() {
-        userDatabase.getUser(hitchikerLocation.getPickerUid(), new UserCallback() {
+        userDatabase.getUser(hitchikerLocation.getSharerUid(), new UserCallback() {
             @Override
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText("Sharing Ride With: \n"+user);
@@ -210,7 +210,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
         carHitchikerUserInfo.setText(" •ᴗ• WAITING... ");
         carHitchikerUserInfo.setVisibility(View.VISIBLE);
         carHitchikerUserInfo.setTypeface(ResourcesCompat.getFont(this, R.font.coral_candy));
-        carHitchikerUserInfo.setTextSize(40);
+        carHitchikerUserInfo.setTextSize(10);
         carHitchikerUserInfo.setTextColor(Color.WHITE);
 
 
