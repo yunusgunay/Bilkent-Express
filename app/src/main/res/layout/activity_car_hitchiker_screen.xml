@@ -46,29 +46,25 @@
         android:id="@+id/carHitchikerConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:fontFamily="@font/coral_candy"
         android:text=" CONFIRM "
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/CarHitchikerDecline"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/coral_candy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carHitcihkerEndCodeEditTExt"
-        app:layout_constraintVertical_bias="0.944" />
+        app:layout_constraintBottom_toTopOf="@+id/CarHitchikerDecline" />
 
     <Button
         android:id="@+id/CarHitchikerDecline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="220dp"
-        android:fontFamily="@font/coral_candy"
         android:text=" Decline "
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/coral_candy"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.475"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp" />
 
     <EditText
         android:id="@+id/carHitcihkerEndCodeEditTExt"
@@ -77,7 +73,7 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Name"
+        android:hint="Enter End Code"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.532"

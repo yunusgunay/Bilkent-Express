@@ -181,8 +181,8 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
             @Override
             public void onCallback(User user) {
                 carTaxiUserInfo.setText("Sharing Ride With: \n"+user);
+                carTaxiUserInfo.setTextSize(20);
                 carTaxiDeclineButton.setVisibility(View.VISIBLE);
-                carTaxiEndCodeEditText.setVisibility(View.VISIBLE);
                 carTaxiConfirmButton.setText(" End Ride ");
                 carTaxiDeclineButton.setText(" Cancel Ride (-10) ");
             }
@@ -195,7 +195,7 @@ public class CarTaxiScreen extends AppCompatActivity implements StateHandler<Tax
         carTaxiUserInfo.setText(" •ᴗ• WAITING... ");
         carTaxiUserInfo.setVisibility(View.VISIBLE);
         carTaxiUserInfo.setTypeface(ResourcesCompat.getFont(this, R.font.coral_candy));
-        carTaxiUserInfo.setTextSize(10);
+        carTaxiUserInfo.setTextSize(40);
         carTaxiUserInfo.setTextColor(Color.BLACK);
 
         carTaxiConfirmButton.setText(" Cancel ");

@@ -149,6 +149,7 @@ public class UserHitchikerFragment extends Fragment{
             public void onCallback(User user) {
                 endCodeUserHitchiker.setText(hitchikerLocation.getSharerEndCode());
                 userInfoUserHitchiker.setText(" Sharing Ride With: \n"+user);
+                userInfoUserHitchiker.setTextSize(13);
                 userHitchikerConfirmButton.setText(" End Ride ");
                 userHitchikerDeclineButton.setText(" Cancel Ride (-10) ");
                 endCodeUserHitchiker.setVisibility(View.VISIBLE);

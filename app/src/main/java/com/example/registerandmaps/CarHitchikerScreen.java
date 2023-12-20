@@ -78,7 +78,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText(user.toString());
                 carHitchikerUserInfo.setTypeface(font);
-                carHitchikerUserInfo.setTextSize(10);
+                carHitchikerUserInfo.setTextSize(20);
                 carHitchikerUserInfo.setTextColor(Color.WHITE);
                 int grayColor = Color.parseColor("#80000000");
                 carHitchikerUserInfo.setBackgroundColor(grayColor);
@@ -194,6 +194,7 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
             @Override
             public void onCallback(User user) {
                 carHitchikerUserInfo.setText("Sharing Ride With: \n"+user);
+                carHitchikerUserInfo.setTextSize(10);
                 carHitchikerEndCode.setVisibility(View.VISIBLE);
                 carHitchikerDeclineButton.setVisibility(View.VISIBLE);
                 carHitchikerEndCodeEditText.setVisibility(View.VISIBLE);
@@ -208,12 +209,10 @@ public class CarHitchikerScreen extends AppCompatActivity implements StateHandle
 
     private void updateUiStateCode1(){
         carHitchikerUserInfo.setText(" •ᴗ• WAITING... ");
+        carHitchikerUserInfo.setTextSize(40);
         carHitchikerUserInfo.setVisibility(View.VISIBLE);
         carHitchikerUserInfo.setTypeface(ResourcesCompat.getFont(this, R.font.coral_candy));
-        carHitchikerUserInfo.setTextSize(10);
         carHitchikerUserInfo.setTextColor(Color.WHITE);
-
-
         carHitchikerConfirmButton.setText(" Cancel ");
         carHitchikerConfirmButton.setVisibility(View.VISIBLE);
         carHitchikerDeclineButton.setVisibility(View.GONE);

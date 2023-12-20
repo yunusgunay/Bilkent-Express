@@ -112,7 +112,6 @@ public class UserTaxiFragment extends Fragment{
             status1uiupdate();
         }
         if (statusCode == 2){
-            userTaxiEndCodeEditText.setVisibility(View.VISIBLE);
             status2uiupdate();
         }
     }
@@ -135,6 +134,7 @@ public class UserTaxiFragment extends Fragment{
             @Override
             public void onCallback(User user) {
                 userInfoUserTaxi.setText(" Sharing Ride With: \n"+user);
+                userInfoUserTaxi.setTextSize(13);
                 userTaxiConfirmButton.setText(" End Ride ");
                 userTaxiDeclineButton.setText(" Cancel Ride (-10) ");
             }
