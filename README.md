@@ -16,7 +16,7 @@ Register and Maps is an Android application designed for efficient transportatio
 - Android SDK
 
 **Steps:**
-1. Clone the project repository: `git clone https://github.com/your-repository-url.git`
+1. Clone the project repository: `git clone https://github.com/yunusgunay/cs102project.git`
 2. Open the project in Android Studio.
 3. Build the project and run it on an emulator or physical Android device.
 
