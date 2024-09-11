@@ -1,4 +1,4 @@
-# Register and Maps
+# Bilkent Express
 
 ## Description
 Bilkent Express is an Android application designed for efficient transportation coordination. It allows users to see bus arrival times, share taxis, participate in hitchhiking, and manage their profiles.
